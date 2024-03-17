@@ -1,0 +1,1 @@
+# Local nix-darwin setup
