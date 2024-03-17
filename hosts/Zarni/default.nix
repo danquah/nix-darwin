@@ -3,8 +3,15 @@
 
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
-  # Installs a version of nix, that dosen't need "experimental-features = nix-command flakes" in /etc/nix/nix.conf
-  services.nix-daemon.package = pkgs.nixFlakes;
+
+  system.defaults.dock.autohide = true;
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.test = { pkgs, ... }: {
+    home.stateVersion = "23.11";
+  };
+
 
   # if you use zsh (the default on new macOS installations),
   # you'll need to enable this so nix-darwin creates a zshrc sourcing needed environment changes
@@ -15,17 +22,14 @@
 
   homebrew = {
     enable = true;
-    autoUpdate = true;
+    onActivation = {
+      autoUpdate = true;
+      upgrade = true;
+    };
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
     ];
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.YourUserName = { pkgs, ... }: {
-
-    stateVersion = "23.05"; # read below
-  };
-};
+}
